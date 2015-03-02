@@ -4,11 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./config');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+console.log("user_name: " + config.dbSettings.user_name);
+console.log("password: " + config.dbSettings.password);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +28,51 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+//MongoDB settings
+var mongooseOptions = {
+    server: { 
+        socketOptions: {
+            keepAlive: 1
+        } 
+    },
+    user: config.dbSettings.user_name,
+    pass: config.dbSettings.password
+}
+var dbURI = "ds045679.mongolab.com:45679/booledb";
+
+mongoose.connect(dbURI, mongooseOptions);
+
+
+//some test code for mongodb
+var userSchema = mongoose.Schema({
+    user_name: String,
+    user_pass: String,
+    signup_date: {
+        type: Date,
+        default: Date.now
+    },
+    admin: Boolean,
+    bits: Number
+});
+
+var User = mongoose.model('User', userSchema);
+
+var arif = new User ({
+    user_name: "420noscope4jesus",
+    user_pass: "testing",
+    admin: true,
+    bits: 1024
+});
+
+arif.save(function (err, fluffy) {
+  if (err) return console.error(err);
+  console.log(arif.user_name + " is saved.");
+});
+////
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
