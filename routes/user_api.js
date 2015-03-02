@@ -33,8 +33,8 @@ router.route('/users/:id').put(function(req,res){
 		}
 
 		//update user
-		for (prop in req.body) {
-		  	user[prop] = req.body[prop];
+		for (change in req.body) {
+		  	user[change] = req.body[change];
 		}
 
 		// save the user
@@ -48,6 +48,7 @@ router.route('/users/:id').put(function(req,res){
 	});
 });
 
+//returns a specific user
 router.route('/users/:id').get(function(req, res) {
   	User.findOne({ _id: req.params.id}, function(err, user) {
     	if (err) {
@@ -58,6 +59,7 @@ router.route('/users/:id').get(function(req, res) {
   	});
 });
 
+//deletes a specific user
 router.route('/users/:id').delete(function(req, res) {
 	User.remove({
     	_id: req.params.id
