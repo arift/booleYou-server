@@ -28,31 +28,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/api', user_api);
 
-//Check to see if the config file exists
+//MongoDB settings
+var dbUsername;
+var dbPass;
 fs.exists('./config.js', function(exists) {
     if (exists) {
         useConfig = true;
         console.log("Using variables from config.js");
+        var config = require('./config');
+        dbUsername = config.dbSettings.user_name;
+        dbPass = config.dbSettings.password;
     }
     else {
         useConfig = false;
         console.log("No config file. Using environment variables instead.");
+        dbUsername = process.env.DB_USERNAME;
+        dbPass = process.env.DB_PASS;
     }
-});
-
-//MongoDB settings
-var dbUsername;
-var dbPass;
-if (useConfig) {
-    var config = require('./config');
-    dbUsername = config.dbSettings.user_name;
-    dbPass = config.dbSettings.password;
-}
-else {
-    dbUsername = process.env.DB_USERNAME;
-    dbPass = process.env.DB_PASS;
-}
-var mongooseOptions = {
+    var mongooseOptions = {
     server: { 
         socketOptions: {
             keepAlive: 1
@@ -60,9 +53,12 @@ var mongooseOptions = {
     },
     user: dbUsername,
     pass: dbPass
-}
-var dbURI = "ds053139.mongolab.com:53139/booledb";
-mongoose.connect(dbURI, mongooseOptions);
+    }
+    var dbURI = "ds053139.mongolab.com:53139/booledb";
+    mongoose.connect(dbURI, mongooseOptions);
+});
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
