@@ -29,3 +29,9 @@ node_modules
 
 #custom
 config.js
+
+# bin
+bin
+
+# I don't know what it does
+.idea
