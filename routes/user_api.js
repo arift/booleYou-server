@@ -21,7 +21,7 @@ router.route('/users').post(function(req, res) {
       		return res.send(err);
     	}
  		console.log ("User \"" + user.user_name + "\" added.");
-    	res.send({ message: 'User Added' });
+    	res.send({ msg: 'success' });
   	});
 });
 
@@ -43,7 +43,7 @@ router.route('/users/:id').put(function(req,res){
 		    	return res.send(err);
 		  	}
 		  	console.log ("User, \"" + user.user_name + "\", updated.");
-	  		res.json({ message: 'User updated!' });
+	  		res.json({ msg: 'success' });
 		});
 	});
 });
