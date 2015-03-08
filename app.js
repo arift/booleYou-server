@@ -1,10 +1,10 @@
 var express = require('express');
 var path = require('path');
+var fs = require('fs');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var config = require('./config');
 var mongoose = require('mongoose');
 
 var passport = require('passport');
@@ -18,6 +18,7 @@ var auth = require('./routes/auth');
 var configPassport = require('./config/passport');
 
 var app = express();
+var useConfig = true;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,22 +38,47 @@ app.use(passport.initialize());
 app.use(passport.session());
 configPassport(passport);
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/', routes);
 app.use('/auth', auth);
 app.use('/api', user_api);
 
 //MongoDB settings
-var mongooseOptions = {
+var dbUsername;
+var dbPass;
+fs.exists('./config.js', function(exists) {
+    if (exists) {
+        useConfig = true;
+        console.log("Using variables from config.js");
+        var config = require('./config');
+        dbUsername = config.dbSettings.user_name;
+        dbPass = config.dbSettings.password;
+    }
+    else {
+        useConfig = false;
+        console.log("No config file. Using environment variables instead.");
+        dbUsername = process.env.DB_USERNAME;
+        dbPass = process.env.DB_PASS;
+    }
+    var mongooseOptions = {
     server: { 
         socketOptions: {
             keepAlive: 1
         } 
     },
-    user: config.dbSettings.user_name,
-    pass: config.dbSettings.password
-}
-var dbURI = "ds053139.mongolab.com:53139/booledb";
-mongoose.connect(dbURI, mongooseOptions);
+    user: dbUsername,
+    pass: dbPass
+    }
+    var dbURI = "ds053139.mongolab.com:53139/booledb";
+    mongoose.connect(dbURI, mongooseOptions);
+});
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
