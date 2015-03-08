@@ -7,8 +7,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var passport = require('passport');
+var session = require('express-session');
+
 var routes = require('./routes/index');
 var user_api = require('./routes/user_api');
+var auth = require('./routes/auth');
+
+// Passport authentication strategy configuration
+var configPassport = require('./config/passport');
 
 var app = express();
 var useConfig = true;
@@ -24,6 +31,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ secret: 'secret stuff',
+    resave: true,
+    saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+configPassport(passport);
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -31,6 +45,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
+app.use('/auth', auth);
 app.use('/api', user_api);
 
 //MongoDB settings

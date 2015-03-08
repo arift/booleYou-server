@@ -3,13 +3,13 @@ var router = express.Router();
 var User = require('../models/user');
 //returns ALL of the users
 router.route('/users').get(function(req, res) {
-	User.find(function(err, users) {
-		if (err) {
-			return res.send(err);
-    	} 
+    User.find(function(err, users) {
+        if (err) {
+            return res.send(err);
+        }
 
-    	res.json(users);
-  	});
+        res.json(users);
+    });
 });
 
 //adds a new user
@@ -70,6 +70,25 @@ router.route('/users/:id').delete(function(req, res) {
  
     	res.json({ message: 'Successfully deleted' });
   	});
+});
+
+router.route('/users').delete(function(req, res) {
+    // This is how you check if the user logged in
+    if(req.user) {
+        User.remove({}, function (err, users) {
+            if (err) {
+                return res.send(err);
+            }
+
+            res.json(users);
+        });
+        return ;
+    };
+
+    res.json({
+        'msg': 'Please log into remove all the users!'
+    });
+    return;
 });
 
 module.exports = router;
