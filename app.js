@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
-var user_api = require('./routes/user_api');
+var api = require('./routes/api');
 
 var app = express();
 var useConfig = true;
@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
-app.use('/api', user_api);
+app.use('/api', api);
 
 //MongoDB settings
 var dbUsername;
