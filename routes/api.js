@@ -13,19 +13,6 @@ router.route('/users').get(function(req, res) {
     });
 });
 
-//adds a new user
-router.route('/users').post(function(req, res) {
-  	var user = new User(req.body);
-    user.password = user.generateHash(user.password);
-  	user.save(function(err) {
-    	if (err) {
-      		return res.send(err);
-    	}
- 		console.log ("User \"" + user.username + "\" added.");
-    	res.send({ msg: 'success' });
-  	});
-});
-
 //updates a specific user
 router.route('/users/:id').put(function(req,res){
 	User.findOne({ _id: req.params.id }, function(err, user) {
