@@ -16,12 +16,12 @@ router.route('/users').get(function(req, res) {
 //adds a new user
 router.route('/users').post(function(req, res) {
   	var user = new User(req.body);
- 
+    user.password = user.generateHash(user.password);
   	user.save(function(err) {
     	if (err) {
       		return res.send(err);
     	}
- 		console.log ("User \"" + user.user_name + "\" added.");
+ 		console.log ("User \"" + user.username + "\" added.");
     	res.send({ msg: 'success' });
   	});
 });
@@ -43,7 +43,7 @@ router.route('/users/:id').put(function(req,res){
 		  	if (err) {
 		    	return res.send(err);
 		  	}
-		  	console.log ("User, \"" + user.user_name + "\", updated.");
+		  	console.log ("User, \"" + user.username + "\", updated.");
 	  		res.json({ msg: 'success' });
 		});
 	});
