@@ -74,22 +74,14 @@ router.route('/users/:id').delete(function(req, res) {
 });
 
 router.route('/users').delete(function(req, res) {
-    // This is how you check if the user logged in
-    if(req.user) {
-        User.remove({}, function (err, users) {
-            if (err) {
-                return res.send(err);
-            }
-
-            res.json(users);
-        });
-        return ;
-    };
-
-    res.json({
-        'msg': 'Please log into remove all the users!'
+    User.remove({
+      _id: req.params.id
+    }, function(err, movie) {
+      if (err) {
+        return res.send(err);
+      } 
+      res.json({ message: 'Successfully deleted' });
     });
-    return;
 });
 
 //returns ALL of the booleOuts
