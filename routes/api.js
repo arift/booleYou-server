@@ -64,24 +64,13 @@ router.route('/users/:id').get(function(req, res) {
 router.route('/users/:id').delete(function(req, res) {
 	User.remove({
     	_id: req.params.id
-  	}, function(err, movie) {
+  	}, function(err, data) {
     	if (err) {
       		return res.send(err);
     	}
  
     	res.json({ message: 'Successfully deleted' });
   	});
-});
-
-router.route('/users').delete(function(req, res) {
-    User.remove({
-      _id: req.params.id
-    }, function(err, movie) {
-      if (err) {
-        return res.send(err);
-      } 
-      res.json({ message: 'Successfully deleted' });
-    });
 });
 
 //returns ALL of the booleOuts
