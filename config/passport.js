@@ -6,7 +6,7 @@ module.exports = function (passport) {
     passport.use(new LocalStrategy(
             function (username, password, done) {
                 // search for the user in the database
-                User.find({user_name: username, password : password}, function (err, user) {
+                User.find({bitName: username, password : password}, function (err, user) {
                     if (err) {
                         return done(err);
                     }

@@ -33,16 +33,15 @@ app.use(session({ secret: 'secret stuff',
 app.use(passport.initialize());
 app.use(passport.session());
 configPassport(passport);
-
-app.use('/', routes);
-app.use('/auth', auth);
-app.use('/api', api);
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
+app.use('/', routes);
+app.use('/auth', auth);
+app.use('/api', isAuthenticated, api);
 
 //MongoDB settings
 var dbUsername;
@@ -106,6 +105,12 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/');
+}
 
 
 module.exports = app;
