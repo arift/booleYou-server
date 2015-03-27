@@ -3,7 +3,7 @@ var Schema=mongoose.Schema;
  
 var booleOutSchema = new Schema({
   	bit: Boolean,
-  	hashtag: String,
+  	hashtag: [String],
   	user_name: String,
   	post_date: {
     	type: Date,
