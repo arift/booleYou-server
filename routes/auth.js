@@ -6,13 +6,13 @@ var passport = require('passport');
 router.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/',
         failureRedirect : '/',
-        failureFlash : true // allow flash messages
+        failureFlash : false // allow flash messages
 }));
 
 router.post('/login', passport.authenticate('local-login', {
         successRedirect : '/', // success
         failureRedirect : '/', // fail
-        failureFlash : true // allow flash messages
+        failureFlash : false // allow flash messages
 }));
 
 // logout by destroying session
