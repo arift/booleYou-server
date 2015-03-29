@@ -11,7 +11,8 @@ var session = require('express-session');
 var routes = require('./routes/index');
 var auth = require('./routes/auth');
 var configPassport = require('./config/passport');
-var api = require('./routes/api');
+var api_user = require('./routes/api_user');
+var api_booleout = require('./routes/api_booleout');
 
 var app = express();
 var useConfig = true;
@@ -41,7 +42,8 @@ app.use(function(req, res, next) {
 
 app.use('/', routes);
 app.use('/auth', auth);
-app.use('/api', isAuthenticated, api);
+app.use('/api/user', api_user);
+app.use('/api/booleout', api_booleout);
 
 //MongoDB settings
 var dbUsername;
@@ -109,7 +111,7 @@ app.use(function(err, req, res, next) {
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated())
     return next();
-  res.redirect('/');
+  res.status(401);
 }
 
 

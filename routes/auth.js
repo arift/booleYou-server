@@ -2,12 +2,22 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
+//new user signup
+router.post('/signup', passport.authenticate('local-signup'),
+	function(req, res) {
+		console.log("setting status 200");
+		res.status(200);
+		res.end();
+	}
+);
 
-router.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/', // success
-        failureRedirect : '/', // fail
-        failureFlash : true // allow flash messages
-}));
+router.post('/login', passport.authenticate('local-login'),
+	function(req, res) {
+		console.log("setting status 200");
+		res.status(200);
+		res.end();
+	}
+);
 
 // logout by destroying session
 router.get('/logout', function(req, res) {
