@@ -21,12 +21,11 @@ module.exports = function (passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
-        // checking to see if the user trying to login already exists
+        // checking to see if the user trying to signup already exists
         User.findOne({ 'username' :  username }, function(err, user) {
             // if there are any errors, return the error
             if (err)
                 return done(err);
-
             // check to see if theres already a user with that username
             if (user) {
                 console.log("User already exists");
