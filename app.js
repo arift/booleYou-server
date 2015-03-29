@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/auth', auth);
 app.use('/api/user', isAuthenticated, api_user);
-app.use('/api/booleout', api_booleout);
+app.use('/api/booleout', isAuthenticated, api_booleout);
 
 //MongoDB settings
 var dbUsername;
