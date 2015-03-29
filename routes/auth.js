@@ -15,6 +15,7 @@ router.post('/login', passport.authenticate('local-login'),
 	function(req, res) {
 		console.log("setting status 200");
 		res.status(200);
+		res.json(req.user);
 		res.end();
 	}
 );
