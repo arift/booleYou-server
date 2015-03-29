@@ -3,12 +3,15 @@ var router = express.Router();
 var User = require('../models/user');
 var BooleOut = require('../models/booleOut');
 
-//returns ALL of the booleOuts
+var N = 50;
+
+//returns last N of the booleOuts in newest to oldest
 router.route('/booleOuts').get(function(req, res) {
-  BooleOut.find(function(err, booleOuts) {
+  var query = BooleOut.find().sort({$natural : -1}).limit(N);
+  query.exec(function(err, booleOuts) {
     if (err) {
       return res.send(err);
-      } 
+      }
 
       res.json(booleOuts);
     });
