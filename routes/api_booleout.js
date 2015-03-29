@@ -25,9 +25,11 @@ router.route('/booleOuts').post(function(req, res) {
       if (err) {
           return res.send(err);
       }
-    console.log ("BooleOut \"" + booleOut.user_name + "\" added \"" + booleOut.bit + " " + booleOut.hashtag + "\"");
-      res.send({ message: 'booleOut Added' });
+    
+      
     });
+    console.log ("BooleOut \"" + booleOut.user_name + "\" added \"" + booleOut.bit + " " + booleOut.hashtag + "\"");
+    res.send({ message: 'booleOut Added' });
 });
 
 //returns a specific booleOut
