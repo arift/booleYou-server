@@ -9,7 +9,7 @@ var userSchema = new Schema({
 	email: String,
   username: String,
   password: String,
-	gender: Number,
+	gender: String,
 	following: [String],
 	signup_date: {
     type: Date,
