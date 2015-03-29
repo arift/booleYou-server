@@ -14,8 +14,8 @@ router.route('/users').get(function(req, res) {
 });
 
 //updates a specific user
-router.route('/users/:id').put(function(req,res){
-	User.findOne({ _id: req.params.id }, function(err, user) {
+router.route('/users/:username').put(function(req,res){
+	User.findOne({ _id: req.params.username }, function(err, user) {
 		if (err) {
 		  	return res.send(err);
 		}
@@ -37,8 +37,8 @@ router.route('/users/:id').put(function(req,res){
 });
 
 //returns a specific user
-router.route('/users/:id').get(function(req, res) {
-  	User.findOne({ _id: req.params.id}, function(err, user) {
+router.route('/users/:username').get(function(req, res) {
+  	User.findOne({ username: req.params.username}, function(err, user) {
     	if (err) {
       		return res.send(err);
     	}
@@ -48,9 +48,9 @@ router.route('/users/:id').get(function(req, res) {
 });
 
 //deletes a specific user
-router.route('/users/:id').delete(function(req, res) {
+router.route('/users/:username').delete(function(req, res) {
 	User.remove({
-    	_id: req.params.id
+    	_id: req.params.username
   	}, function(err, data) {
     	if (err) {
       		return res.send(err);
