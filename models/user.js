@@ -7,14 +7,14 @@ var userSchema = new Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
-  	username: String,
-  	password: String,
+  username: String,
+  password: String,
 	gender: Number,
 	following: [String],
 	signup_date: {
-    	type: Date,
-    	default: Date.now
-    }
+    type: Date,
+    default: Date.now
+  }
 });
 
 // generating a hash
