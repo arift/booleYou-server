@@ -11,12 +11,12 @@ var booleOutSchema = new Schema({
     },
     noOfReplies: {
     	type: Number,
-    	default: 0;
+    	default: 0
     },
     parent: {
     	type: String,
-    	default: "null";
-    },
+    	default: "null"
+    }
 });
  
 module.exports = mongoose.model('BooleOut', booleOutSchema);
