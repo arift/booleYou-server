@@ -41,6 +41,7 @@ describe('account creation', function(){
 });
 
 describe('login', function(){
+  it('respond')
 });
 
 describe('look at user page', function(){
