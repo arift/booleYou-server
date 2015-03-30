@@ -9,6 +9,14 @@ var booleOutSchema = new Schema({
     	type: Date,
     	default: Date.now
     },
+    noOfReplies: {
+    	type: Number,
+    	default: 0
+    },
+    parent: {
+    	type: String,
+    	default: "null"
+    }
 });
  
 module.exports = mongoose.model('BooleOut', booleOutSchema);
