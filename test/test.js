@@ -1,7 +1,8 @@
-var app = require('../app');
-
 var should = require('should'),
-	supertest = require('supertest');
+	request = require('supertest')
+	express = require('express');
+
+var app = express();
 
 describe('firstTest', function () {
 	
@@ -14,4 +15,24 @@ describe('firstTest', function () {
 		done();
 	});
 
+});
+
+describe('GET /users', function(){
+  it('respond with json', function (done){
+  	app.get('/users', function(req, res){
+  		res.status(200).send({ name: 'tobi' });
+	});
+
+    request(app)
+      .get('/users')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      // .expect(200, done);
+      .expect(200)
+      .end(function(err,res){
+      	console.log(res,err);
+      	if(err) return done(err);
+      	done()
+      });
+  })
 });
