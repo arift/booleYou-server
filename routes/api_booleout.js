@@ -59,7 +59,8 @@ router.route('/booleOuts/:id').delete(function(req, res) {
 //returns all of the parent booleOuts
 router.route('/getParents').get(function(req, res) {
   //if a booleout doesn't have a parent (parent: "null"), then it's a parent
-    BooleOut.find({parent: "null"}, function(err, booleOuts) {
+    var query = BooleOut.find({parent: "null"}).sort({$natural : -1}).limit(N);
+    query.exec(function(err, booleOuts) {
         if (err) {
             return res.send(err);
         }
