@@ -4,6 +4,13 @@ var should = require('should'),
 
 var app = express();
 
+//tutorial video
+//https://www.youtube.com/watch?v=JZmL1Rihpt8
+//documentation/examples
+//https://github.com/visionmedia/supertest
+//https://www.npmjs.com/package/supertest
+//GLHF
+
 describe('firstTest', function () {
 	
 	it('should pass', function (done) {
