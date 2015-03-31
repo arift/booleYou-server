@@ -8,7 +8,6 @@ router.route('/users').get(function(req, res) {
         if (err) {
             return res.send(err);
         }
-
         res.json(users);
     });
 });
@@ -41,8 +40,7 @@ router.route('/users/:username').get(function(req, res) {
   	User.findOne({ username: req.params.username}, function(err, user) {
     	if (err) {
       		return res.send(err);
-    	}
- 
+    	} 
     	res.json(user);
   	});
 });
@@ -54,8 +52,7 @@ router.route('/users/:username').delete(function(req, res) {
   	}, function(err, data) {
     	if (err) {
       		return res.send(err);
-    	}
- 
+    	} 
     	res.json({ message: 'Successfully deleted' });
   	});
 });

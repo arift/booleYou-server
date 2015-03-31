@@ -12,7 +12,6 @@ router.route('/booleOuts').get(function(req, res) {
     if (err) {
       return res.send(err);
       }
-
       res.json(booleOuts);
     });
 });
@@ -24,12 +23,11 @@ router.route('/booleOuts').post(function(req, res) {
     booleOut.save(function(err) {
       if (err) {
           return res.send(err);
-      }
-    
-      
+      }      
+      res.json(booleOut);
     });
-    console.log ("BooleOut \"" + booleOut.user_name + "\" added \"" + booleOut.bit + " " + booleOut.hashtag + "\"");
-    res.send({ message: 'booleOut Added' });
+
+    console.log ("added new booleout");
 });
 
 //returns a specific booleOut
@@ -43,10 +41,23 @@ router.route('/booleOuts/:id').get(function(req, res) {
     });
 });
 
-//deletes a specific booleOut
-router.route('/booleOuts/:id').delete(function(req, res) {
+// //deletes a specific booleOut
+// router.route('/booleOuts/:id').delete(function(req, res) {
+//   BooleOut.remove({
+//       _id: req.params.id
+//     }, function(err, movie) {
+//       if (err) {
+//           return res.send(err);
+//       }
+ 
+//       res.json({ message: 'Successfully deleted' });
+//     });
+// });
+
+//deletes all booleouts by a user
+router.route('/booleOuts/:username').delete(function(req, res) {
   BooleOut.remove({
-      _id: req.params.id
+      username: req.params.username
     }, function(err, movie) {
       if (err) {
           return res.send(err);
