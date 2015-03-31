@@ -3,12 +3,20 @@ var Schema=mongoose.Schema;
  
 var booleOutSchema = new Schema({
   	bit: Boolean,
-  	hashtag: String,
-  	user_name: String,
+  	hashtag: [String],
+  	username: String,
   	post_date: {
     	type: Date,
     	default: Date.now
     },
+    noOfReplies: {
+    	type: Number,
+    	default: 0
+    },
+    parent: {
+    	type: String,
+    	default: "null"
+    }
 });
  
 module.exports = mongoose.model('BooleOut', booleOutSchema);
