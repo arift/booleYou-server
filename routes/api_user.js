@@ -50,7 +50,7 @@ router.route('/users/:username').get(function(req, res) {
 //deletes a specific user
 router.route('/users/:username').delete(function(req, res) {
 	User.remove({
-    	_id: req.params.username
+    	username: req.params.username
   	}, function(err, data) {
     	if (err) {
       		return res.send(err);
