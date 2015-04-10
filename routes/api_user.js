@@ -14,7 +14,7 @@ router.route('/users').get(function(req, res) {
 
 //updates a specific user
 router.route('/users/:username').put(function(req,res){
-	User.findOne({ _id: req.params.username }, function(err, user) {
+	User.findOne({ username: req.params.username }, function(err, user) {
 		if (err) {
 		  	return res.send(err);
 		}
