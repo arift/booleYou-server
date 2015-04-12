@@ -12,8 +12,8 @@ var userSchema = new Schema({
 	gender: String,
 	following: [String],
 	bits: {
-		type: Number,
-		default: 0
+		type: String,
+		default: ""
 		},
   ones: {
 		type: Number,
