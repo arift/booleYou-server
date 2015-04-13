@@ -10,7 +10,14 @@ var userSchema = new Schema({
   username: String,
   password: String,
 	gender: String,
-	following: [String],
+	following: {
+    type: [String],
+    default: [""]
+    },
+  followedby: {
+      type: [String],
+      default: [""]
+      },
 	bits: {
 		type: String,
 		default: ""

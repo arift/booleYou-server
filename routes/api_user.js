@@ -104,6 +104,97 @@ router.route('/resetbits/:username').get(function(req, res) {
   });
 });
 
+//User 'username' follows 'followed'
+router.route('/:username/follow/:followed').get(function(req, res) {
+  //find the first user that's following
+  User.findOne({ username: req.params.username }, function(err, user) {
+    if (err) {
+        return res.send(err);
+    }
+    if (user === null) {
+      console.log("user " + req.params.username + " not found.");
+      return res.send ('user not found.');
+    }
+    //find the second user that's being followed
+    User.findOne({ username: req.params.followed }, function(err, followed) {
+      if (err) {
+          return res.send(err);
+      }
+      if (followed === null) {
+        console.log("user " + req.params.followed + " not found.");
+        return res.send ('user not found.');
+      }
+      //check to see if user is already being followed
+      if (user.following.indexOf(followed.username) > -1) {
+        console.log("user " + req.params.username + " is already following" + req.params.followed);
+        return res.send ("user " + req.params.username + " is already following" + req.params.followed);
+      }
+      //follow user
+      else {
+        user.following.push(followed.username);
+        followed.followedby.push(user.username);
+        user.save(function(err) {
+            if (err) {
+              return res.send(err);
+            }
+            followed.save(function(err) {
+                if (err) {
+                  return res.send(err);
+                }
+                console.log ("User, \"" + user.username + "\", is now following " + followed.username);
+                res.json({ status: 'success', msg: "User " + user.username + " is now following " + followed.username });
+            });
+        });
+      }
+    });
+  });
+});
+
+//User 'username' unfollows 'followed'
+router.route('/:username/unfollow/:followed').get(function(req, res) {
+  //find the first user that's following
+  User.findOne({ username: req.params.username }, function(err, user) {
+    if (err) {
+        return res.send(err);
+    }
+    if (user === null) {
+      console.log("user " + req.params.username + " not found.");
+      return res.send ('user not found.');
+    }
+    //find the second user that's being followed
+    User.findOne({ username: req.params.followed }, function(err, followed) {
+      if (err) {
+          return res.send(err);
+      }
+      if (followed === null) {
+        console.log("user " + req.params.followed + " not found.");
+        return res.send ('user not found.');
+      }
+      var followingIndex = user.following.indexOf(followed.username);
+      var followedbyIndex = followed.followedby.indexOf(user.username);
+      
+      if (followingIndex > -1) {
+        user.following.splice(followingIndex, 1);
+      }
+      if(followedbyIndex > -1) {
+        followed.followedby.splice(followedbyIndex, 1);
+      }
+      user.save(function(err) {
+          if (err) {
+            return res.send(err);
+          }
+          followed.save(function(err) {
+              if (err) {
+                return res.send(err);
+              }
+              console.log ("User, \"" + user.username + "\", is unfollowed " + followed.username);
+              res.json({ status: 'success', msg: "User " + user.username + " unfollowed " + followed.username });
+          });
+      });
+    });
+  });
+});
+
 //deletes a specific user
 router.route('/users/:username').delete(function(req, res) {
 	User.remove({
