@@ -12,11 +12,11 @@ var userSchema = new Schema({
 	gender: String,
 	following: {
     type: [String],
-    default: [""]
+    default: []
     },
   followedby: {
       type: [String],
-      default: [""]
+      default: []
       },
 	bits: {
 		type: String,
