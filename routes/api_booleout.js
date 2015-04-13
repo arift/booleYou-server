@@ -19,11 +19,11 @@ router.route('/booleOuts').get(function(req, res) {
 //adds a new booleOut
 router.route('/booleOuts').post(function(req, res) {
     var booleOut = new BooleOut(req.body);
- 
+
     booleOut.save(function(err) {
       if (err) {
           return res.send(err);
-      }      
+      }
       res.json(booleOut);
     });
 
@@ -36,7 +36,7 @@ router.route('/booleOuts/:id').get(function(req, res) {
       if (err) {
           return res.send(err);
       }
- 
+
       res.json(booleOut);
     });
 });
@@ -49,7 +49,7 @@ router.route('/booleOuts/:id').get(function(req, res) {
 //       if (err) {
 //           return res.send(err);
 //       }
- 
+
 //       res.json({ message: 'Successfully deleted' });
 //     });
 // });
@@ -62,7 +62,7 @@ router.route('/booleOuts/:username').delete(function(req, res) {
       if (err) {
           return res.send(err);
       }
- 
+
       res.json({ message: 'Successfully deleted' });
     });
 });
@@ -87,6 +87,19 @@ router.route('/getreplies/:id').get(function(req, res) {
             return res.send(err);
         }
         res.json(users);
+    });
+});
+
+
+//gets all of the booleouts by a user
+router.route('/getbooleouts/:username').get(function(req, res) {
+  console.log("called booleouts by user");
+  //find all BooleOuts whose username is req.params.username
+    BooleOut.find({username: req.params.username}, function(err, booleouts) {
+        if (err) {
+            return res.send(err);
+        }
+        res.json(booleouts);
     });
 });
 
