@@ -21,4 +21,4 @@ var hashtag = new Schema({
     }
 });
 
-module.exports = mongoose.model('BooleOut', booleOutSchema);
+module.exports = mongoose.model('Hashtag', booleOutSchema);
