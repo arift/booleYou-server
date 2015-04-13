@@ -30,7 +30,7 @@ router.route('/users/:username').put(function(req,res){
 		    	return res.send(err);
 		  	}
 		  	console.log ("User, \"" + user.username + "\", updated.");
-	  		res.json({ msg: 'success' });
+	  		res.json(user);
 		});
 	});
 });
@@ -127,7 +127,7 @@ router.route('/:username/follow/:followed').get(function(req, res) {
       //check to see if user is already being followed
       if (user.following.indexOf(followed.username) > -1) {
         console.log("user " + req.params.username + " is already following" + req.params.followed);
-        return res.send ("user " + req.params.username + " is already following" + req.params.followed);
+        return res.json ({user: user});
       }
       //follow user
       else {
@@ -142,7 +142,7 @@ router.route('/:username/follow/:followed').get(function(req, res) {
                   return res.send(err);
                 }
                 console.log ("User, \"" + user.username + "\", is now following " + followed.username);
-                res.json({ status: 'success', msg: "User " + user.username + " is now following " + followed.username });
+                res.json({ user: user });
             });
         });
       }
@@ -172,7 +172,7 @@ router.route('/:username/unfollow/:followed').get(function(req, res) {
       }
       var followingIndex = user.following.indexOf(followed.username);
       var followedbyIndex = followed.followedby.indexOf(user.username);
-      
+
       if (followingIndex > -1) {
         user.following.splice(followingIndex, 1);
       }
@@ -188,7 +188,7 @@ router.route('/:username/unfollow/:followed').get(function(req, res) {
                 return res.send(err);
               }
               console.log ("User, \"" + user.username + "\", is unfollowed " + followed.username);
-              res.json({ status: 'success', msg: "User " + user.username + " unfollowed " + followed.username });
+              res.json({ user: user });
           });
       });
     });
