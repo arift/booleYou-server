@@ -19,6 +19,41 @@ router.route('/booleOuts').get(function(req, res) {
 //adds a new booleOut
 router.route('/booleOuts').post(function(req, res) {
     var booleOut = new BooleOut(req.body);
+    User.findOne({ username: booleOut.username }, function(err, user) {
+      if(booleOut.bit) {
+        user.bits += "1";
+        user.ones++;
+      }
+      else {
+        user.bits += "0";
+        user.zeros++;
+      }
+      if (booleOut.parent !== "null") {
+        BooleOut.findOne({ _id: booleOut.parent }, function(err, parentBooleOut) {
+          User.findOne({ username: parentBooleOut.username }, function(err, parentUser) {
+            if(booleOut.bit) {
+              parentUser.bits += "1";
+              parentUser.ones++;
+            }
+            else {
+              parentUser.bits += "0";
+              parentUser.zeros++;
+            }
+            parentBooleOut.noOfReplies++;
+            parentBooleOut.save(function(err){
+                console.log ("Booleout received a reply.");
+            });
+            parentUser.save(function(err){
+                console.log ("User, \"" + parentUser.username + "\", received a bit.");
+            });
+          });
+        });
+      }
+      // save the user
+      user.save(function(err){
+          console.log ("User, \"" + user.username + "\", received a bit.");
+      });
+    });
 
     booleOut.save(function(err) {
       if (err) {
