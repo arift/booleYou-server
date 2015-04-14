@@ -104,6 +104,28 @@ router.route('/resetbits/:username').get(function(req, res) {
   });
 });
 
+//resets everyone's bits
+router.route('/resetbits/').post(function(req, res) {
+  if (req.body.secret === "resetbits") {
+    User.find(function(err, users) {
+        if (err) {
+            return res.send(err);
+        }
+        for (var i = 0; i < users.length; i++) {
+          users[i].bits = "";
+          users[i].zeros = 0;
+          users[i].ones = 0;
+          users[i].save();
+        }
+        console.log ("ALL user bits are reset.");
+        res.json({ status: 'success', msg: "ALL user bits are reset." });
+    });
+  }
+  else {
+    res.json({ status: 'failure', msg: "set secret param to resetbits" });
+  }
+});
+
 //User 'username' follows 'followed'
 router.route('/:username/follow/:followed').get(function(req, res) {
   //find the first user that's following
