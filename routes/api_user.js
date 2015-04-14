@@ -41,7 +41,7 @@ router.route('/users/:username').get(function(req, res) {
     	if (err) {
       		return res.send(err);
     	}
-    	res.json({user:user});
+    	res.json(user);
   	});
 });
 
