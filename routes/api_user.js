@@ -12,6 +12,25 @@ router.route('/users').get(function(req, res) {
     });
 });
 
+//updates password. expect newPassword in the body
+router.route('/changepass/:username').post(function(req,res){
+  User.findOne({ username: req.params.username }, function(err, user) {
+    if (err) {
+        return res.send(err);
+    }
+    user.password = user.generateHash(req.body.newPassword);
+
+    // save the user
+    user.save(function(err) {
+        if (err) {
+          return res.send(err);
+        }
+        console.log ("User " + user.username + " changed their password.");
+        res.json(user);
+    });
+  });
+});
+
 //updates a specific user
 router.route('/users/:username').put(function(req,res){
 	User.findOne({ username: req.params.username }, function(err, user) {
