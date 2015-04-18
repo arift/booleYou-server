@@ -7,14 +7,14 @@ var userSchema = new Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
-  username: String,
-  password: String,
+	username: String,
+	password: String,
 	gender: String,
 	following: {
     type: [String],
     default: []
     },
-  followedby: {
+  	followedby: {
       type: [String],
       default: []
       },
@@ -22,11 +22,11 @@ var userSchema = new Schema({
 		type: String,
 		default: ""
 		},
-  ones: {
+  	ones: {
 		type: Number,
 		default: 0
 		},
-  zeros: {
+  	zeros: {
 		type: Number,
 		default: 0
 		},

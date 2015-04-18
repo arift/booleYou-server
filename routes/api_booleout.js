@@ -76,19 +76,6 @@ router.route('/booleOuts/:id').get(function(req, res) {
     });
 });
 
-// //deletes a specific booleOut
-// router.route('/booleOuts/:id').delete(function(req, res) {
-//   BooleOut.remove({
-//       _id: req.params.id
-//     }, function(err, movie) {
-//       if (err) {
-//           return res.send(err);
-//       }
-
-//       res.json({ message: 'Successfully deleted' });
-//     });
-// });
-
 //deletes all booleouts by a user
 router.route('/booleOuts/:username').delete(function(req, res) {
   BooleOut.remove({
@@ -137,5 +124,33 @@ router.route('/getbooleouts/:username').get(function(req, res) {
         res.json(booleouts);
     });
 });
+
+//returns all of the booleouts by the users the passed-in username is following
+router.route('/getfollowerbooleouts/:username').get(function(req, res) {
+  var done = function(data) {
+    res.json(data);
+  }
+  User.findOne({ username: req.params.username }, function(err, user) {
+    if (err) {
+      return res.send(err);
+    }
+    var data = [];
+    var j = 0;
+    if (user.following.length < 1) done({data:false});
+    for (var i = 0; i < user.following.length; i++) {
+      var followingUser = user.following[i];  
+      BooleOut.find({username : followingUser}, function(err, booleOuts) {
+        if (booleOuts.length > 0) {
+          data = data.concat(booleOuts);
+        }        
+        j++;
+        if(j === user.following.length) {
+          done(data);
+        }          
+      });
+    }
+  });
+});
+
 
 module.exports = router;
