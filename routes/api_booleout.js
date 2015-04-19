@@ -134,9 +134,13 @@ router.route('/getfollowerbooleouts/:username').get(function(req, res) {
     if (err) {
       return res.send(err);
     }
+    if (!user || !user.following) {
+      console.log("getfollowerbooleouts/"+req.params.username + ": null");
+      res.send(false);
+    }
     var data = [];
     var j = 0;
-    if (user.following.length < 1) done({data:false});
+    if (user.following.length < 1) res.send(false);
     for (var i = 0; i < user.following.length; i++) {
       var followingUser = user.following[i];  
       BooleOut.find({username : followingUser}, function(err, booleOuts) {
