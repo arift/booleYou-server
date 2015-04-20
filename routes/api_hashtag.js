@@ -5,12 +5,11 @@ var BooleOut = require('../models/booleOut');
 var Hashtag = require('../models/hashtag');
 
 //returns a hashtag object
-router.route('/gethashtag/:hashtag').get(function(req, res) {
+router.route('/getbyhashtag/:hashtag').get(function(req, res) {
     Hashtag.findOne({ hashtag: req.params.hashtag}, function(err, hashtag) {
       if (err) {
           return res.send(err);
       }
-
       res.json(hashtag);
     });
 });
