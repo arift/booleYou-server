@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var BooleOut = require('../models/booleOut');
+var Hashtag = require('../models/hashtag');
 
 var N = 50;
 
@@ -49,6 +50,66 @@ router.route('/booleOuts').post(function(req, res) {
           });
         });
       }
+
+      if(booleOut.hashtag) {
+        var j = 0;
+        for (var i = 0; i < booleOut.hashtag.length; i++) {
+          Hashtag.findOne({hashtag : booleOut.hashtag[i]}, function(err, hashtag) {
+            console.log("Hashtag: " + hashtag);
+            if(err) {
+              console.log("Err: " + err);
+            }
+            if(hashtag) {
+              console.log("Hashtag exists, found hashtag " + hashtag.hashtag);
+              hashtag.totalbits++;
+              hashtag.booleOuts.push(booleOut._id);
+              if(booleOut.bit) {
+                console.log("Positive bit: " + hashtag);
+                hashtag.ones++;
+              }
+              else {
+                console.log("Negative bit: " + hashtag);
+                hashtag.zeros++;
+              }
+              if (hashtag.usernames.indexOf(booleOut.username) < 0) {
+                console.log("adding new user to array: " + booleOut.username);
+                hashtag.usernames.push(booleOut.username)
+              }
+              hashtag.save(function(err) {
+                if (err) {
+                  console.log("error saving hashtag: " + err);
+                }
+              });
+            }
+            else {
+              console.log("new hashtag");
+              var newHashtag = new Hashtag();
+              newHashtag.usernames.push(booleOut.username);
+              newHashtag.hashtag = booleOut.hashtag[j];
+              newHashtag.booleOuts.push(booleOut._id);
+              newHashtag.totalbits++;
+              console.log("i: " + i);
+              console.log("booleOut.hashtag[i]: " + booleOut.hashtag[j]);
+              if (booleOut.bit) {                
+                newHashtag.ones++;
+                console.log("newHashtag positive bit: " + newHashtag);
+              }
+              else {        
+                newHashtag.zeros++;
+                console.log("newHashtag negative bit: " + newHashtag);
+              }
+              newHashtag.save(function(err) {
+                if (err) {
+                  console.log("error saving hashtag: " + err);
+                }
+              });
+            }
+            j++;
+          });
+        }
+      }
+
+
       // save the user
       user.save(function(err){
           console.log ("User, \"" + user.username + "\", received a bit.");
@@ -111,7 +172,6 @@ router.route('/getreplies/:id').get(function(req, res) {
         res.json(users);
     });
 });
-
 
 //gets all of the booleouts by a user
 router.route('/getbooleouts/:username').get(function(req, res) {

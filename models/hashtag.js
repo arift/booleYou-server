@@ -1,9 +1,9 @@
 var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 
-var hashtag = new Schema({
+var hashtagSchema = new Schema({
   hashtag: String,
-  username: String,
+  usernames: [String],
   ones: {
     type: Number,
     default: 0
@@ -16,9 +16,10 @@ var hashtag = new Schema({
     type: Number,
     default: 0
     },
-  booleouts: {
-    type: [Object]
+  booleOuts: {
+    type: [String],
+    default: []
     }
 });
 
-module.exports = mongoose.model('Hashtag', booleOutSchema);
+module.exports = mongoose.model('Hashtag', hashtagSchema);
