@@ -13,6 +13,7 @@ var auth = require('./routes/auth');
 var configPassport = require('./config/passport');
 var api_user = require('./routes/api_user');
 var api_booleout = require('./routes/api_booleout');
+var api_hashtag = require('./routes/api_hashtag');
 
 var app = express();
 var useConfig = true;
@@ -46,6 +47,7 @@ app.use('/', routes);
 app.use('/auth', auth);
 app.use('/api/user', api_user);
 app.use('/api/booleout', api_booleout);
+app.use('/api/hashtag', api_hashtag);
 
 //MongoDB settings
 var dbUsername;
