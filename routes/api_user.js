@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var BooleOut = require('../models/booleOut');
+var Picture = require('../models/picture');
 //returns ALL of the users
 router.route('/users').get(function(req, res) {
     User.find(function(err, users) {
@@ -208,6 +209,45 @@ router.route('/users/:username').delete(function(req, res) {
     	}
     	res.json({ message: 'Successfully deleted' });
   	});
+});
+
+//adds a pro pic
+router.route('/addpropic/:username').post(function(req, res) {
+  Picture.findOne({ username: req.params.username }, function(err, picture) {
+    if (err) {
+        return res.send(err);
+    }
+    //check if the user already has a picture
+    if(picture) {
+      picture.picture = req.body.picture;
+    }
+    else {
+      var picture = new Picture(req.body);
+    }
+    picture.save(function(err) {
+      if (err) {
+        return res.send(err);
+      }
+      res.json(picture);
+    });
+  });
+});
+
+//gets the picture object for the give usernmae
+router.route('/getpropic/:username').get(function(req, res) {
+  Picture.findOne({ username: req.params.username }, function(err, picture) {
+    if (err) {
+        return res.send(err);
+    }
+    res.json(picture);
+  });
+});
+
+//deletes a pro pic
+router.route('/deletepropic/:username').delete(function(req, res) {
+  Picture.remove({ username: req.params.username }, function(err, data) {
+    res.send(data);
+  });
 });
 
 module.exports = router;
