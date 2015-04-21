@@ -4,11 +4,32 @@ var User = require('../models/user');
 var BooleOut = require('../models/booleOut');
 var Hashtag = require('../models/hashtag');
 
-var N = 50;
-
 //returns last N of the booleOuts in newest to oldest
-router.route('/booleOuts').get(function(req, res) {
-  var query = BooleOut.find().sort({$natural : -1}).limit(N);
+router.route('/booleouts').get(function(req, res) {
+  var query = BooleOut.find().sort({$natural : -1}).limit(50);
+  query.exec(function(err, booleOuts) {
+    if (err) {
+      return res.send(err);
+      }
+      res.json(booleOuts);
+    });
+});
+
+/* 
+  returns a number of sorted booleouts
+  :howmany is how many to return 
+  :sortby is what to sort by. (latest, oldest)
+*/
+router.route('/booleouts/:sortby/:howmany').get(function(req, res) {
+  var sortby = req.params.sortby;
+  var howmany = req.params.howmany;
+  var query = BooleOut.find().sort({'_id' : -1}).limit(50); //default if nothing matches
+  if(!sortby || !howmany) return res.send(false);
+  if(sortby === 'latest' || sortby === 'date') {
+    query = BooleOut.find().sort({'_id' : -1}).limit(howmany);
+  } else if (sortby === 'oldest'){
+    query = BooleOut.find().sort({'_id' : 1}).limit(howmany);
+  }
   query.exec(function(err, booleOuts) {
     if (err) {
       return res.send(err);
