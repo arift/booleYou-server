@@ -4,6 +4,7 @@ var User = require('../models/user');
 var BooleOut = require('../models/booleOut');
 var Hashtag = require('../models/hashtag');
 
+var N = 50;
 //returns last N of the booleOuts in newest to oldest
 router.route('/booleouts').get(function(req, res) {
   var query = BooleOut.find().sort({$natural : -1}).limit(50);
