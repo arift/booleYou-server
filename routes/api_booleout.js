@@ -207,7 +207,9 @@ router.route('/getfollowerbooleouts/:username').get(function(req, res) {
       res.send(false);
       return;
     }
-    var inQuery = {$in:user.following};
+    var inArray = user.following;
+    inArray.push(req.params.username);
+    var inQuery = {$in:inArray};
     var query = BooleOut.find({username: inQuery}).sort({'_id' : -1}).limit(50);
     query.exec(function(err, booleOuts) {
       if (err) {
