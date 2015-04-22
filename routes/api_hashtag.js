@@ -24,8 +24,24 @@ router.route('/getbyuser/:username').get(function(req, res) {
     });
 });
 
+router.route('/getbooleoutsbyhashtag/:hashtag').get(function(req, res) {
+  Hashtag.findOne({ hashtag: req.params.hashtag}, function(err, hashtag) {
+      if (err) {
+          return res.send(err);
+      }
+      if (!hashtag || !hashtag.booleOuts) return res.send(false);
+      var inQuery = {$in:hashtag.booleOuts};
+      var query = BooleOut.find({'_id': inQuery}).sort({'_id' : -1}).limit(50);
+      query.exec(function(err, booleOuts) {
+        if (err) {
+          return res.send(err);
+          }
+          res.json(booleOuts);
+      });
+  });
+});
 
-//returns all hashtags
+//returns trending hashtags
 router.route('/trending').get(function(req, res) {
     var query = Hashtag.find().sort({totalbits : -1});
     query.exec(function(err, hashtags) {
