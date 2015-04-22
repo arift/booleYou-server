@@ -187,11 +187,12 @@ router.route('/getreplies/:id').get(function(req, res) {
 router.route('/getbooleouts/:username').get(function(req, res) {
   console.log("called booleouts by user");
   //find all BooleOuts whose username is req.params.username
-    BooleOut.find({username: req.params.username}, function(err, booleouts) {
+  var query = BooleOut.find({username: req.params.username}).sort({'_id' : -1}).limit(50);
+    query.exec(function(err, booleOuts) {
         if (err) {
             return res.send(err);
         }
-        res.json(booleouts);
+        res.json(booleOuts);
     });
 });
 
