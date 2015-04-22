@@ -32,29 +32,6 @@ router.route('/changepass/:username').post(function(req,res){
   });
 });
 
-//updates a specific user
-router.route('/users/:username').put(function(req,res){
-	User.findOne({ username: req.params.username }, function(err, user) {
-		if (err) {
-		  	return res.send(err);
-		}
-
-		//update user
-		for (change in req.body) {
-		  	user[change] = req.body[change];
-		}
-
-		// save the user
-		user.save(function(err) {
-		  	if (err) {
-		    	return res.send(err);
-		  	}
-		  	console.log ("User, \"" + user.username + "\", updated.");
-	  		res.json(user);
-		});
-	});
-});
-
 //returns a specific user
 router.route('/users/:username').get(function(req, res) {
   	User.findOne({ username: req.params.username}, function(err, user) {
