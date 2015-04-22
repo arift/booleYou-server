@@ -27,12 +27,11 @@ router.route('/getbyuser/:username').get(function(req, res) {
 
 //returns all hashtags
 router.route('/trending').get(function(req, res) {
-    Hashtag.find({}, function(err, hashtags) {
+    var query = Hashtag.find().sort({totalbits : -1});
+    query.exec(function(err, hashtags) {
         if (err) {
             return res.send(err);
         }
-        console.log(hashtags);
-
         res.json(hashtags);
     });
 });
