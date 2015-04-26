@@ -199,7 +199,29 @@ describe('Routing', function(){
   			}
   			done();      			
   		});
-  	});  	
+  	}); 
+    it('should return all of the parent booleouts (GET /api/booleout/getparents)', function(done){
+      request(url)
+      .get('/api/booleout/getParents')
+      .expect(200)
+      .end(function(err, res) {
+        if(err) throw err;
+        res.body.should.be.json;
+        done();        
+      });
+    });
+    it('should return booleouts by mochatest (GET /api/booleout/getbooleouts/mochatest)', function(done){
+      request(url)
+      .get('/api/booleout/getbooleouts/mochatest')
+      .expect(200)
+      .end(function(err, res) {
+        if(err) throw err;
+        res.body.should.be.json;
+        var booleouts = res.body;
+        booleouts[0].username.should.equal('mochatest');
+        done();        
+      });
+    });
   });
 
   describe('Clean up calls', function(){ 
