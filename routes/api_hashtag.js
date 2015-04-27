@@ -43,7 +43,7 @@ router.route('/getbooleoutsbyhashtag/:hashtag').get(function(req, res) {
 
 //returns trending hashtags
 router.route('/trending').get(function(req, res) {
-    var query = Hashtag.find().sort({totalbits : -1});
+    var query = Hashtag.find({hashtag: {$ne: ""}}).sort({totalbits : -1});
     query.exec(function(err, hashtags) {
         if (err) {
             return res.send(err);
